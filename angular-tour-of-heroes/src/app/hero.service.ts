@@ -18,18 +18,9 @@ export class HeroService {
   getHero(id: number): Observable<Hero> {
     // TODO: send the message _after_ fetching the hero
     this.messageService.add(`HeroService: fetched hero id=${id}`);
-    let re = HEROES.find(hero => hero.id === id);
-    if(!re) {
-      this.search_fallback.id = id;
-      re = this.search_fallback;
-    }
-    return of(re);
+    let result = HEROES.find(hero => hero.id === id);
+    return of(!!result?result: {id:id, name:"No result"});
   }
-
-  search_fallback:Hero = {
-    id:-99,
-    name:"ID not found"
-  };
 
   constructor(private messageService: MessageService) { }
 }
